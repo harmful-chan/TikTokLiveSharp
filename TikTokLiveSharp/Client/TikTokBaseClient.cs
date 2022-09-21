@@ -20,6 +20,7 @@ namespace TikTokLiveSharp.Client
     public abstract class TikTokBaseClient
     {
         protected Dictionary<string, object> clientParams;
+        private readonly RotatingProxy proxyHandler;
         protected TikTokHTTPClient http;
         protected TikTokWebSocket socket;
         protected bool connecting, isPolling, processInitialData, fetchRoomInfoOnConnect, enableExtendedGiftInfo;
@@ -63,6 +64,7 @@ namespace TikTokLiveSharp.Client
             this.clientParams["app_language"] = lang;
             this.clientParams["webcast_language"] = lang;
 
+            this.proxyHandler = proxyHandler;
             this.http = new TikTokHTTPClient(timeout, proxyHandler);
             this.pollingInterval = pollingInterval ?? TimeSpan.FromSeconds(3);
             this.processInitialData = processInitialData;
@@ -88,12 +90,17 @@ namespace TikTokLiveSharp.Client
         /// <param name="cancellationToken">The cancellation token to use.</param>
         public void Run(CancellationToken? cancellationToken = null, bool retryConnection = false)
         {
-            this.token = cancellationToken ?? new CancellationToken();
-            token.ThrowIfCancellationRequested();
-            var run = Task.Run(() => this.Start(token, retryConnection), token);
-            run.Wait();
-            this.runningTask.Wait();
-            this.pollingTask.Wait();
+            try
+            {
+                this.token = cancellationToken ?? new CancellationToken();
+                token.ThrowIfCancellationRequested();
+                var run = Task.Run(() => this.Start(token, retryConnection), token);
+                run.Wait();
+                this.runningTask.Wait();
+                this.pollingTask.Wait();
+            }
+            catch { throw; }
+
         }
 
         /// <summary>
@@ -110,14 +117,17 @@ namespace TikTokLiveSharp.Client
             {
                 return await this.Connect();
             }
-            catch (FailedConnectionException)
+            catch (FailedConnectionException e)
             {
                 if (retryConnection)
                 {
                     await Task.Delay(this.pollingInterval);
                     return await Start(cancellationToken, retryConnection);
                 }
-                return null;
+                else
+                {
+                    throw e;
+                }
             }
         }
 
@@ -258,7 +268,7 @@ namespace TikTokLiveSharp.Client
         {
             this.clientParams[webcastResponse.wsParam.Name] = webcastResponse.wsParam.Value;
             var url = webcastResponse.wsUrl + "?" + string.Join("&", this.clientParams.Select(x => $"{x.Key}={HttpUtility.UrlEncode(x.Value.ToString())}"));
-            this.socket = new TikTokWebSocket(TikTokHttpRequest.CookieJar);
+            this.socket = new TikTokWebSocket(TikTokHttpRequest.CookieJar, this.proxyHandler);
             await this.socket.Connect(url);
             this.runningTask = Task.Run(this.WebSocketLoop, token);
             this.pollingTask = Task.Run(this.PingLoop, token);

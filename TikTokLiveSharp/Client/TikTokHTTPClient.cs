@@ -19,7 +19,7 @@ namespace TikTokLiveSharp.Client
 
         internal TikTokHTTPClient(TimeSpan? timeout, RotatingProxy proxyHandler = null)
         {
-            TikTokHttpRequest.Timeout = timeout ?? TimeSpan.FromSeconds(15);
+            TikTokHttpRequest.Timeout = timeout ?? TimeSpan.FromSeconds(10);
             TikTokHttpRequest.WebProxy = proxyHandler;
             uuc++;
         }

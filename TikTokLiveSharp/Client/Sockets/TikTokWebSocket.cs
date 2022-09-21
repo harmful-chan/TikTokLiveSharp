@@ -3,6 +3,7 @@ using System.Net.WebSockets;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using TikTokLiveSharp.Client.Proxy;
 using TikTokLiveSharp.Client.Requests;
 
 namespace TikTokLiveSharp.Client.Sockets
@@ -15,12 +16,13 @@ namespace TikTokLiveSharp.Client.Sockets
         /// Creates a TikTok websocket instance.
         /// </summary>
         /// <param name="cookieContainer">The cookie container to use.</param>
-        public TikTokWebSocket(TikTokCookieJar cookieContainer)
+        public TikTokWebSocket(TikTokCookieJar cookieContainer, RotatingProxy proxyHandler = null)
         {
             this.clientWebSocket = new ClientWebSocket();
 
             this.clientWebSocket.Options.AddSubProtocol("echo-protocol");
             this.clientWebSocket.Options.KeepAliveInterval = TimeSpan.FromSeconds(15);
+            this.clientWebSocket.Options.Proxy = proxyHandler;
 
             var cookieHeader = new StringBuilder();
             foreach (var cookie in cookieContainer)

@@ -1,40 +1,54 @@
-## Package updated
-New events are yet to be implemented, but legacy events are now supported.
+简述
+-----------------
 
-# TikTokLiveSharp
-![HitCount](https://hits.dwyl.com/sebheron/TikTokLiveSharp.svg?style=flat)
-![Issues](https://img.shields.io/github/issues/sebheron/TikTokLiveSharp)
-![Forks](https://img.shields.io/github/forks/sebheron/TikTokLiveSharp)
-![Stars](https://img.shields.io/github/stars/sebheron/TikTokLiveSharp)
-![Tweet](https://img.shields.io/twitter/url?url=https%3A%2F%2Fgithub.com%2Fsebheron%2FTikTokLiveSharp)
+TTC  (TIKTOK Comment System for windows x64)，基于 [TikTokLiveSharp](https://github.com/sebheron/TikTokLiveSharp) 开发的winform 应用使用 .NET Core 3.1。运行时 [.NET Desktop Runtime 3.1.28 x64](https://dotnet.microsoft.com/en-us/download/dotnet/thank-you/runtime-desktop-3.1.28-windows-x64-installer)
 
-#### Read TikTok Live chat messages, gifts, etc.
+特性
+-----------------
 
-## Showcase
-If you want to showcase a project you've made with this library, create an Issue with the **Showcase** label.
+- 程序名称决定启动方式
+- 代理检测：**SS/SSR/Astrill/Fiddler**
+- 错误提示：直播间段出现错误先解决再重启软件
 
-## Details
-A C# port of TikTok Live connector library (See [here](https://github.com/zerodytrash/TikTok-Live-Connector), [here](https://github.com/isaackogan/TikTokLive) and [here](https://github.com/Davincible/gotiktoklive) for more in-depth documentation).
-The primary incentive behind designing this library was to allow direct implementation of the TikTok Live connector into Unity, it's implemented in .NET Standard and should work universally across all .NET supported platforms. An older version of Protobuf-net was used to ensure Unity compatibility.
-````c#
-var client = new TikTokLiveClient(uniqueID);
-client.OnCommentRecieved += Client_OnCommentRecieved;
-client.Run();
+- **完全本地化**：所有直播间数据保存在本地 **C:\Users\Administration\AppData\Local\Temp\ttc**
 
-private static void Client_OnCommentRecieved(object sender, WebcastChatMessage e)
-{
-    Console.WriteLine($"{e.User.uniqueId}: {e.Comment}");
-}
-````
-**This is not an official library nor associated with TikTok in any way.**
+配置
+-----------------
 
-## Setup
-### Unity
-A [Unity package](https://github.com/sebheron/TikTokLiveSharp/releases/tag/v0.1.3.1) can be downloaded from the releases.
-With Unity projects, replace usage of the TikTokLiveClient's Run method with Start to prevent blocking.
-### Nuget
-The latest release can be found in the Nuget Package Manager or by entering the command:
+- 保存直播间评论.txt：**File -> Open comment record folder**
+- 恢复历史直播间：**File -> Restore live stream history**
+- 自动翻译： **Setup -> Configure -> translation language** 支持 英文，中文，马来语。默认自动识别
+- 字体大小：**Setup -> Configure -> Comment/Joined/Viewer Panel Font Size** 默认 14
+- 可选加入成员面板：**Setup -> Configure -> show joined panel** 
 
-`Install-Package TikTokLiveSharp`
 
-Or by navigating to the Nuget [URL](https://www.nuget.org/packages/TikTokLiveSharp/0.1.3.1).
+面板
+------------------
+
++ Comment：当前直播信息，先连接直播间，或者点击恢复直播间历史数据。
++ Debug：输出运行数据。
++ Configure：配置面板。
+
+程序名称决定启动方式
+------------------
+
+- 推荐格式： **win-ttc.feature-timestamp.\[unique_id][proxy_port].exe**
+  - **win-ttc**：固定
+  - **feature**：snapshot，intelligent
+  - **timestamp**：当前时间 202209202254 (GMT+8)
+  - **[unique_id]**：tiktok账号，如[fbs.students]
+  - **[proxy_port]**：本地代理端口，1080:SS/SSR，3213:Astrill，8888:Fiddler
+- 例子：自动选择直播间，自动使用本地1080端口代理，自动连接直播间
+  - **ttc-win.intelligent-202209202218.\[fbs.students][1080].exe**
+  - **ttc-win.intelligent.\[fbs.students][1080].exe**
+  - **ttc-win.\[fbs.students][1080].exe**
+  - **\[fbs.students][1080].exe**
+- 例子：自动选择直播间，不使用代理，自动连接直播间。
+  - ...
+  - **\[fbs.students][0].exe**
+- 例子：自动选择直播间，自动检测代理，手动连接直播间。
+  - ...
+  - **\[fbs.students].exe**
+- 例子：正常启动，手动选择直播间，自动检测代理，手动连接直播间。
+  - ...
+  - **ttc-win.exe**

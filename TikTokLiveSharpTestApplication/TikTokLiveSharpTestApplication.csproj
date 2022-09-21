@@ -6,6 +6,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\TikTokLiveSharp.Win\TikTokLiveSharp.Win.csproj" />
     <ProjectReference Include="..\TikTokLiveSharp\TikTokLiveSharp.csproj" />
   </ItemGroup>
 

@@ -34,10 +34,15 @@ namespace TikTokLiveSharp.Client.Proxy
         /// </summary>
         public int Count => this.Addresses.Count;
 
+        private ICredentials credentials;
         /// <summary>
         /// Not implemented
         /// </summary>
-        public ICredentials Credentials { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+        public ICredentials Credentials 
+        { 
+            get => credentials;
+            set { credentials = value; }
+        }
 
         /// <summary>
         /// The index of the current address.
@@ -88,7 +93,7 @@ namespace TikTokLiveSharp.Client.Proxy
 
         public bool IsBypassed(Uri host)
         {
-            return IsEnabled;
+            return false;
         }
     }
 }

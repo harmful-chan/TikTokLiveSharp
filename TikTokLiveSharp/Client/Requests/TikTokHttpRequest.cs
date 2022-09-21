@@ -72,7 +72,6 @@ namespace TikTokLiveSharp.Client.Requests
             get => timeout;
             set
             {
-                if (client != null) throw new Exception("Timeout cannot be set after client has been initalised.");
                 timeout = value;
             }
         }
@@ -85,7 +84,6 @@ namespace TikTokLiveSharp.Client.Requests
             get => webProxy;
             set
             {
-                if (client != null) throw new Exception("Web proxy cannot be set after client has been initalised.");
                 webProxy = value;
             }
         }
