@@ -382,7 +382,7 @@ namespace TikTokLiveSharp.Win
                         comment.Raw = "like this " + i;
                         comment.IsTranslate = true;
                         comment.IconUrl = @"https://p16-webcast.tiktokcdn.com/webcast-va/7117900406071577349~tplv-resize:400:400.webp";
-                        comment.Chinese = await Translate.GetGoogleApiResAsync(comment.Raw, dstType:_dstTraType, srcType:_srcTraType);
+                        comment.Chinese = await Translate.GetGoogleApiResAsync(comment.Raw, dstType:_dstTraType, srcType:_srcTraType, LiveCenter.Proxy);
                         live.RoomData.Comments++;
                         live.CommentList.Add(comment);
                         clc.CommentListAppend(comment);
@@ -630,7 +630,7 @@ namespace TikTokLiveSharp.Win
                 c.NickName = e.User.Nickname;
                 c.Raw = e.Comment;
                 c.IsTranslate = this.cbTranslation.Checked;
-                c.Chinese = await Translate.GetGoogleApiResAsync(c.Raw, dstType:_dstTraType, srcType: _srcTraType);
+                c.Chinese = await Translate.GetGoogleApiResAsync(c.Raw, dstType:_dstTraType, srcType: _srcTraType, LiveCenter.Proxy);
                 live.CommentList.Add(c);
                 this.clc.CommentListAppend(c);
             }));
@@ -922,7 +922,7 @@ namespace TikTokLiveSharp.Win
                 if( !label.Text.Replace(clc.ChineseSpilt, "").Legal())
                 {
                     label.Text = $"{clc.ChineseSpilt} ...";
-                    label.Text =  $"{clc.ChineseSpilt}"+await Translate.GetGoogleApiResAsync(raw, dstType: _dstTraType, srcType: _srcTraType);
+                    label.Text =  $"{clc.ChineseSpilt}"+await Translate.GetGoogleApiResAsync(raw, dstType: _dstTraType, srcType: _srcTraType, LiveCenter.Proxy);
                 }
             }
         }

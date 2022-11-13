@@ -47,7 +47,7 @@ namespace TikTokLiveSharp.Tools.Toolset
         /// <param name="str">需要翻译的内容</param>
         /// <param name="Translattype">目标翻译类型:传入使用GetRequestLang所获得的值</param>
         /// <returns></returns>
-        public static async Task<string> GetGoogleApiResAsync(string str, string dstType = "zh-CN", string srcType = "auto")
+        public static async Task<string> GetGoogleApiResAsync(string str, string dstType = "zh-CN", string srcType = "auto", Uri proxy = null)
         {
             string res = null;
             await Task.Run(() =>
@@ -73,10 +73,13 @@ namespace TikTokLiveSharp.Tools.Toolset
                 raw = HttpUtility.UrlEncode(raw, Encoding.UTF8);
                 dstType = dstType ?? "zh-CN";
                 srcType = srcType ?? "auto";
-                string apiurl = "http://translate.google.cn/translate_a/single?client=gtx&dt=t&dj=1&ie=UTF-8&sl="+srcType+"&tl=" + dstType + "&q=" + raw;
+                string apiurl = "http://translate.google.com/translate_a/single?client=gtx&dt=t&dj=1&ie=UTF-8&sl="+srcType+"&tl=" + dstType + "&q=" + raw;
  
                 HttpWebRequest myRequest = (HttpWebRequest)WebRequest.Create(apiurl);
-                
+                if( proxy != null)
+                {
+                    myRequest.Proxy = new WebProxy(proxy); 
+                }
                 SetQ(in myRequest);
                 HttpWebResponse response = null;
                 for (int i = 0; i < 5; i++)

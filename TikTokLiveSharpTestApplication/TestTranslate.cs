@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 using TikTokLiveSharp.Tools.Toolset;
@@ -15,7 +16,7 @@ namespace TikTokLiveSharpTestApplication
                 ".NET Core ?Runtime??? (starting with .NET Core 3.0.0-preview2). " +
                 "Resource installation failed, please restart.";
             LogHelper.Info(msg);
-            var str = Translate.GetGoogleApiResAsync(msg).Result ;
+            var str = Translate.GetGoogleApiResAsync(msg, proxy: new Uri("http://127.0.0.1:1080/")).Result ;
             LogHelper.Info(str);
         }
 
