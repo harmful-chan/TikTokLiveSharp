@@ -52,3 +52,9 @@ TTC  (TIKTOK Comment System for windows x64)，基于 [TikTokLiveSharp](https://
 - 例子：正常启动，手动选择直播间，自动检测代理，手动连接直播间。
   - ...
   - **ttc-win.exe**
+
+## fix log
+
+### #202210151831
+
+修改谷歌翻译不能不用问题，修复进入直播间人数太多回自动卡顿问题（需要重新启动客户端）
