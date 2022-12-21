@@ -1,7 +1,11 @@
 简述
 -----------------
 
-TTC  (TIKTOK Comment System for windows x64)，基于 [TikTokLiveSharp](https://github.com/sebheron/TikTokLiveSharp) 开发的winform 应用使用 .NET Core 3.1。运行时 [.NET Desktop Runtime 3.1.28 x64](https://dotnet.microsoft.com/en-us/download/dotnet/thank-you/runtime-desktop-3.1.28-windows-x64-installer)
+TTC  (TIKTOK Comment System for windows x64)，基于 [TikTokLiveSharp](https://github.com/sebheron/TikTokLiveSharp) 开发的winform 应用。
+
+可以显示正在直播的TIKTOK直播间评论，在线人数，总人数等场观数据。
+
+使用 .NET Core 3.1。运行时 [.NET Desktop Runtime 3.1.28 x64](https://dotnet.microsoft.com/en-us/download/dotnet/thank-you/runtime-desktop-3.1.28-windows-x64-installer)
 
 特性
 -----------------
