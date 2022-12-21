@@ -42,13 +42,11 @@ namespace TikTokLiveSharp.Win.Controls
 
         public void JoinedListAppendRange(List<string> joinedList)
         {
-            
-            string[] strings = joinedList.TakeLast(100).ToArray();
-
-            JoinedListAppend(strings);
+            JoinedListAppend(joinedList.ToArray());
         }
         public void JoinedListAppend(params string[] nickNames)
         {
+            List<Label> newJoinedLableList = new List<Label>();
             foreach (var item in nickNames)
             {
                 Label label = new Label();
@@ -57,11 +55,22 @@ namespace TikTokLiveSharp.Win.Controls
                 label.Text = item;
                 label.ForeColor = Color.Black;
                 LabelFormatHelper.SetFontSize(label, _joinedFontSize.Value);
+                newJoinedLableList.Add(label);
                 _joinedLabelList.Add(label);
             }
+            flpJoined.Controls.AddRange(newJoinedLableList.ToArray());
 
-            flpJoined.Controls.AddRange(_joinedLabelList.ToArray());
-            flpJoined.ScrollControlIntoView(_joinedLabelList.Last());
+            // 保持最多显示100个人名
+            for (; flpJoined.Controls.Count > 100; )
+            {
+                flpJoined.Controls.RemoveAt(0);
+            }
+            if(newJoinedLableList.Count > 0)
+            {
+                flpJoined.ScrollControlIntoView(newJoinedLableList.Last());
+            }
+
+
         }
         public void JoinedListClear()
         {

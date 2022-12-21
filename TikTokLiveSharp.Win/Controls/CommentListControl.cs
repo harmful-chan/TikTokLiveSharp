@@ -141,6 +141,13 @@ namespace TikTokLiveSharp.Win.Controls
          
                 }
                 flpComment.Controls.AddRange(cls.ToArray());
+
+                // 保持最多显示50条评论
+                while(flpComment.Controls.Count > 100)
+                {
+                    flpComment.Controls.RemoveAt(0);
+                }
+
                 Label lb = cls.FindLast(l => l.Visible);
                 flpComment.ScrollControlIntoView(lb);
             }

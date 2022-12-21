@@ -58,3 +58,7 @@ TTC  (TIKTOK Comment System for windows x64)，基于 [TikTokLiveSharp](https://
 ### #202210151831
 
 修改谷歌翻译不能不用问题，修复进入直播间人数太多回自动卡顿问题（需要重新启动客户端）
+
+### #202212082302
+
+修改多评论卡顿问题，优化astrill代理，不能连接问题
